@@ -1,0 +1,17 @@
+.DS_Store
+
+#Dependencies
+jobly-backend/node_modules
+jobly-backend/.DS_Store
+jobly-backend/.env.local
+jobly-backend/.env.development.local
+jobly-backend/.env.test.local
+jobly-backend/.env.production.local
+jobly-backend/npm-debug.log*
+jobly-frontend/node_modules
+jobly-frontend/.DS_Store
+jobly-frontend/.env.local
+jobly-frontend/.env.development.local
+jobly-frontend/.env.test.local
+jobly-frontend/.env.production.local
+jobly-frontend/npm-debug.log*
