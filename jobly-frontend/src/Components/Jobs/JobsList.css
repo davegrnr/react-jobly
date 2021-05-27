@@ -1,0 +1,9 @@
+.JobsList {
+	margin: auto;
+	align-items: left;
+}
+
+.JobCardList {
+	width: 40rem;
+	text-align: center;
+}

@@ -11,50 +11,94 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
  */
 
   class JoblyApi {
-  // the token for interactive with the API will be stored here.
-  static token;
+    // the token for interactive with the API will be stored here.
+    static token;
 
-  static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
+    static async request(endpoint, data = {}, method = "get") {
+      console.debug("API Call:", endpoint, data, method);
 
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
-    const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${JoblyApi.token}` };
-    const params = (method === "get")
-        ? data
-        : {};
+      //there are multiple ways to pass an authorization token, this is how you pass it in the header.
+      //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
+      const url = `${BASE_URL}/${endpoint}`;
+      const headers = { Authorization: `Bearer ${JoblyApi.token}` };
+      const params = (method === "get")
+          ? data
+          : {};
 
-    try {
-      return (await axios({ url, method, data, params, headers })).data;
-    } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      try {
+        return (await axios({ url, method, data, params, headers })).data;
+      } catch (err) {
+        console.error("API Error:", err.response);
+        let message = err.response.data.error.message;
+        throw Array.isArray(message) ? message : [message];
+      }
     }
+
+    // Individual API routes
+
+    // Gets current user
+
+    static async getCurrentUser(username) {
+      let res = await this.request(`users/${username}`);
+      return res.user;
+    }
+
+    // Gets list of all companies
+
+    static async getCompanies(name) {
+      let res = await this.request(`companies`, { name });
+      return res.companies;
+    }
+      /** Get details on a company by handle. */
+
+    static async getCompany(handle) {
+      let res = await this.request(`companies/${handle}`);
+      return res.company;
+    }
+
+    // Gets list of jobs if not filtered
+
+    static async getJobs(title){
+      let res = await this.request(`jobs`, {title});
+      return res.jobs;
+    }
+
+    // Gets list of jobs according to company handle
+
+    static async getCompanyJobs(handle) {
+      let res = await this.request(`companies/${handle}`);
+      return res.company.jobs
+    }
+
+    // Handle user applying to a job
+
+    static async applyToJob(username, id){
+      await this.request(`users/${username}/jobs/${id}`, {}, "post")
+    }
+
+    // log user in and assign token
+
+    static async login(data) {
+      let res = await this.request(`auth/token`, data, "post");
+      return res.token;
+    }
+
+    // Signup with user data input
+
+    static async signup(data) {
+      let res = await this.request(`auth/register`, data, "post");
+      return res.token
   }
 
-  // Individual API routes
+  // Update user profile
 
-
-
-  static async getAllCompanies() {
-    let res = await this.request(`companies/`);
-    return res.companies;
-  }
-    /** Get details on a company by handle. */
-
-  static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    return res.company;
+  static async saveProfile(username, data) {
+    let res = await this.request(`users/${username}`, data, "patch");
+    return res.user;
   }
 
-  // obviously, you'll add a lot here ...
 }
 
-// for now, put token ("testuser" / "password" on class)
-JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-    "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-    "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+
 
 export default JoblyApi

@@ -1,0 +1,11 @@
+.card-body {
+	margin: auto;
+	padding: 12px;
+	align-content: left;
+	align-items: left;
+	align-self: left;
+}
+
+.CompanyCard {
+	text-align: center;
+}

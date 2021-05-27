@@ -1,0 +1,11 @@
+.CompanyDetail {
+	align-items: center;
+}
+
+.CompanyDetail .company-info {
+	font-weight: bold;
+	text-align: center;
+}
+.company-name {
+	font-size: 20px;
+}
