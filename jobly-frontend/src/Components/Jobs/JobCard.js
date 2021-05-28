@@ -1,28 +1,26 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import UserContext from '../../Context/UserContext'
 
 function JobCard({ id, title, salary, equity, companyName }) {
     console.debug("JobCard");
 
-    const { hasAppliedToJob, applyToJob, applicationIds, currentUser } = useContext(UserContext);
+    const { hasAppliedToJob, applyToJob, currentUser } = useContext(UserContext);
     const [applied, setApplied] = useState();
-    const [infoLoaded, setInfoLoaded] = useState(false)
 
-    React.useEffect(function updateAppliedStatus() {
-        console.debug("JobCard useEffect updateAppliedStatus", id);
-        setApplied(hasAppliedToJob(id));
-        setInfoLoaded(true)
-      }, [id, hasAppliedToJob, applicationIds]);
+    useEffect(async function updateAppliedStatus() {
+            console.debug("JobCard useEffect updateAppliedStatus", id);
+            setApplied(hasAppliedToJob(id));
+      }, [id, hasAppliedToJob, applied]);
     
 
     // Handles applying for job
-    async function handleApply(evt) {
+    function handleApply(evt) {
         if(hasAppliedToJob(id)) return;
+        console.log(evt.target)
         applyToJob(id);
         setApplied(true);
     }
 
-   
     return(
         <div className="JobCard card"> {applied}
             <div className="card-body">
@@ -41,6 +39,8 @@ function JobCard({ id, title, salary, equity, companyName }) {
         </div>
     )
 }
+
+
 
 function formatSalary(salary) {
     const digitsRev = [];

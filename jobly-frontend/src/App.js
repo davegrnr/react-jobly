@@ -71,7 +71,7 @@ function logout() {
 
   // Handle applying to job and call API for set of application IDs
 
-  function hasAppliedToJob(id) {
+    function hasAppliedToJob(id) {
 
     return applicationIds.has(id)
   }
