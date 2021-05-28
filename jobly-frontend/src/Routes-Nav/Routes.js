@@ -19,7 +19,6 @@ function Routes({ signup, login }) {
     return (
         <div>
                 <Switch>
-
                         <Route exact path="/">
                             <Home />
                         </Route>

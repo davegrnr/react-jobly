@@ -80,6 +80,7 @@ function logout() {
     if (hasAppliedToJob(id)) return;
     JoblyApi.applyToJob(currentUser.username, id);
     setApplicationIds(new Set([...currentUser.applications, id]));
+
   }
 
   if(!infoLoaded) return <p>Loading &hellip;</p>;

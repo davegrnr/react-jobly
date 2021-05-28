@@ -6,13 +6,13 @@ function JobCard({ id, title, salary, equity, companyName }) {
 
     const { hasAppliedToJob, applyToJob, applicationIds, currentUser } = useContext(UserContext);
     const [applied, setApplied] = useState();
-    
+    const [infoLoaded, setInfoLoaded] = useState(false)
 
     React.useEffect(function updateAppliedStatus() {
         console.debug("JobCard useEffect updateAppliedStatus", id);
-        if(applied) return;
         setApplied(hasAppliedToJob(id));
-      }, [applicationIds, hasAppliedToJob]);
+        setInfoLoaded(true)
+      }, [id, hasAppliedToJob, applicationIds]);
     
 
     // Handles applying for job
@@ -22,6 +22,7 @@ function JobCard({ id, title, salary, equity, companyName }) {
         setApplied(true);
     }
 
+   
     return(
         <div className="JobCard card"> {applied}
             <div className="card-body">
@@ -37,7 +38,6 @@ function JobCard({ id, title, salary, equity, companyName }) {
                     {applied ? "Applied" : "Apply"}
                 </button>
             </div>
-
         </div>
     )
 }
